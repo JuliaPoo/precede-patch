@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <script>// vanquishes the white borders
+        window.RufflePlayer = window.RufflePlayer || {};
+        window.RufflePlayer.config = {
+            "scale": "noBorder",
+            "forceScale": true,
+            "wmode": "transparent",
+        };
+    </script>
+	<script src="ruffle/ruffle.js"></script>
+    <title>[S]Prequel: Precede</title>
+</head>
+
+<body onload="init()">
+    <div id="wrappa">
+        <h1>[S]Prequel: Precede</h1>
+        <div id="player-container">
+        </div>
+
+        <script>// sets volume slider to 50%
+            window.addEventListener("load", function() {
+                var ruffle = window.RufflePlayer.newest();
+                var player = ruffle.createPlayer();
+                document.getElementById("player-container").appendChild(player);
+                player.load("./precede-patch.swf").then(function() {
+                    var slider = player.shadowRoot.querySelector("#volume-slider");
+                    slider.value = 50;
+                    slider.dispatchEvent(new Event("input"));
+                });
+            });
+        </script>
+
+        <style>
+            html,
+            body {
+                margin: 0px;
+                padding: 0px;
+                background: black;
+                height: 100%;
+                overflow: visible;
+                font-family: courier, monospace;
+                color: #FFFFF0;
+                text-align: center;
+                touch-action: manipulation;
+                user-select: none;
+            }
+
+            h1 {
+                font-weight: bold;
+                margin: 0px;
+                flex-shrink: 0;
+            }
+
+            #wrappa {
+                display: flex;
+                flex-direction: column;
+                box-sizing: content-box;
+                width: min(100vw, 100vh);
+                position: relative;
+                margin: auto;
+                height: 100vh;
+                justify-content: center;
+            }
+
+            #player-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex: 1;
+                min-height: 0;
+                width: 100%;
+            }
+
+            ruffle-player {
+                aspect-ratio: 800 / 550;
+                display: block;
+                width: auto;
+                height: 100%;
+                flex-grow: 3;
+            }
+
+            @media (max-aspect-ratio: 12/10) { /* detects narrow aspect ratio and vertically align elements to top */
+                #wrappa {
+                    justify-content: flex-start;
+                    height: auto;
+                    width: 100%;
+                }
+
+                h1 {
+                    margin-top: 20px;
+                }
+            }
+             /* if it's mobile and landscape mode */
+            @media all and (orientation:landscape) and (hover: none) and (pointer: coarse) {
+                h1 {
+                    display:none;
+                    height: 0;
+                }
+				p {
+                    display:none;
+                    height: 0;
+                }
+            }
+
+            a {
+                color: white;
+            }
+
+            p {
+                flex-shrink: 0;
+                color: #c7c7c7
+            }
+        </style>
+
+        <p class="desktopoly">Right click or long press to adjust volume/settings. If text is blurry, try a different browser or <a href="https://www.youtube.com/watch?v=jj96fLdTKj8?">watch it on Youtube</a>.
+        </p>
+
+    </div>
+
+    </div>
+
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8c78df7c7c0f484497ecbca7046644da1771523124516" integrity="sha512-8DS7rgIrAmghBFwoOTujcf6D9rXvH8xm8JQ1Ja01h9QX8EzXldiszufYa4IFfKdLUKTTrnSFXLDkUEOTrZQ8Qg==" data-cf-beacon='{"version":"2024.11.0","token":"d507176dd1a042d3b073b028cd963427","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+	<script src="ruffle/ruffle-virtual-keyboard-rpg.js"></script>
+
+</html>
