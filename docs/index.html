@@ -11,7 +11,8 @@
             "wmode": "transparent",
         };
     </script>
-	<script src="ruffle/ruffle.js"></script>
+	<!--<script src="ruffle/ruffle.js"></script>-->
+    <script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
     <title>[S]Prequel: Precede</title>
 </head>
 
@@ -26,7 +27,7 @@
                 var ruffle = window.RufflePlayer.newest();
                 var player = ruffle.createPlayer();
                 document.getElementById("player-container").appendChild(player);
-                player.load("./precede-patch.swf").then(function() {
+                player.load({url: "./precede-patch.swf"}).then(function() {
                     var slider = player.shadowRoot.querySelector("#volume-slider");
                     slider.value = 50;
                     slider.dispatchEvent(new Event("input"));

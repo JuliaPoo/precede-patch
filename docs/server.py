@@ -7,7 +7,7 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Origin", "*")
         super().end_headers()
 
-PORT = 8000
+PORT = 8001
 
 with socketserver.TCPServer(("", PORT), CustomHandler) as httpd:
     httpd.serve_forever()
