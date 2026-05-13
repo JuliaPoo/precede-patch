@@ -12,26 +12,34 @@
         };
     </script>
 	<script src="ruffle/ruffle.js"></script>
-    <title>[S]Prequel: Precede</title>
+    <title>[S]Prequel: Rufflebeds</title>
 </head>
 
 <body onload="init()">
     <div id="wrappa">
-        <h1>[S]Prequel: Precede</h1>
+        <h1>[S]Prequel: Rufflebeds</h1>
+        <select id="dropdabeatyall" onchange="run_rom()">
+            <option value="">-- select rom plox --</option>
+            <option value="excelsior-patch.swf">excelsior-patch.swf</option>
+            <option value="precede-patch.swf">precede-patch.swf</option>
+        </select>
         <div id="player-container">
         </div>
 
         <script>// sets volume slider to 50%
-            window.addEventListener("load", function() {
+            var run_rom = () => {
                 var ruffle = window.RufflePlayer.newest();
                 var player = ruffle.createPlayer();
+                var rom = document.getElementById("dropdabeatyall").value;
+                if (rom === "") return;
                 document.getElementById("player-container").appendChild(player);
-                player.load("precede-patch.swf").then(function() {
+                player.load(rom).then(function() {
                     var slider = player.shadowRoot.querySelector("#volume-slider");
                     slider.value = 50;
                     slider.dispatchEvent(new Event("input"));
                 });
-            });
+                document.getElementById("dropdabeatyall").style.display = "none";
+            };
         </script>
 
         <style>
