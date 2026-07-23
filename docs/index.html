@@ -13,6 +13,78 @@
     </script>
 	<script src="ruffle/ruffle.js"></script>
     <title>[S]Prequel: Rufflebeds</title>
+<style>
+    /* Styling for our custom on-screen error container */
+    #error-log-display {
+      background-color: #2c0000;
+      color: #ff9999;
+      font-family: monospace;
+      padding: 15px;
+      margin: 20px 0;
+      border: 2px solid #ff3333;
+      border-radius: 5px;
+      max-height: 300px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+    .error-entry {
+      border-bottom: 1px solid #551111;
+      padding: 5px 0;
+    }
+  </style>
+
+  <script>
+    // Self-executing setup to run before any other script
+    (function() {
+      // Helper function to insert error messages into the DOM
+      function logToHTML(message) {
+        // Run after the DOM is fully interactive or loaded
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", () => appendElement(message));
+        } else {
+          appendElement(message);
+        }
+      }
+
+      function appendElement(text) {
+        let container = document.getElementById('error-log-display');
+        if (!container) {
+          // Dynamically create the container if it doesn't exist yet
+          container = document.createElement('div');
+          container.id = 'error-log-display';
+          document.body.insertBefore(container, document.body.firstChild);
+        }
+        const entry = document.createElement('div');
+        entry.className = 'error-entry';
+        entry.textContent = `❌ ${text}`;
+        container.appendChild(entry);
+      }
+
+      // 1. Capture Unhandled Runtime Exceptions (e.g., syntax/reference errors)
+      window.addEventListener('error', function(event) {
+        // Avoid duplicate logging if error info is missing
+        if (!event.message) return; 
+        const errorMsg = `${event.message} (at ${event.filename}:${event.lineno}:${event.colno})`;
+        logToHTML(errorMsg);
+      });
+
+      // 2. Capture Unhandled Promise Rejections (e.g., failed fetch requests)
+      window.addEventListener('unhandledrejection', function(event) {
+        const reason = event.reason && event.reason.message ? event.reason.message : event.reason;
+        logToHTML(`Unhandled Promise Rejection: ${reason}`);
+      });
+
+      // 3. Intercept Explicit console.error() calls from code or third-party scripts
+      const nativeConsoleError = console.error;
+      console.error = function(...args) {
+        // Convert arguments into a readable string format
+        const message = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : arg).join(' ');
+        logToHTML(message);
+        // Retain original console functionality in DevTools
+        nativeConsoleError.apply(console, args); 
+      };
+    })();
+  </script>
 </head>
 
 <body onload="init()">
