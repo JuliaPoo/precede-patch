@@ -31,6 +31,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             text-align: left;
             font-size: 0.9em;
+            user-select: text !important;
         }
         /* Log line styling */
         .log-line {
@@ -44,21 +45,14 @@
         .log-warn { color: #e6db74; background-color: #433f1a; padding: 2px; }
         .log-error { color: #f92672; background-color: #3e1925; padding: 2px; }
         .log-info { color: #66d9ef; }
-        
-        button {
-            padding: 10px 15px;
-            margin-right: 10px;
-            margin-bottom: 15px;
-            cursor: pointer;
-        }
     </style>
 
 </head>
 
-<!-- The DOM target where all console activities will append -->
-<div id="html-console"></div>
+<body onload="init()">
+    <div id="html-console"></div>
 
-<script>
+    <script>
         // Self-executing script to override console methods safely
         (function() {
             const consoleContainer = document.getElementById('html-console');
@@ -100,11 +94,12 @@
                 console.error(`${message} at ${source}:${lineno}:${colno}`);
                 return false;
             };
+
+            console.log(`DPR: ${window.devicePixelRatio}`)
         })();
         
-</script>
+    </script>
 
-<body onload="init()">
     <div id="wrappa">
         <h1>[S]Prequel: Rufflebeds</h1>
         <select id="dropdabeatyall" onchange="run_rom()">
