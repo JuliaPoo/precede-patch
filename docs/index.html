@@ -13,79 +13,96 @@
     </script>
 	<script src="ruffle/ruffle.js"></script>
     <title>[S]Prequel: Rufflebeds</title>
-<style>
-    /* Styling for our custom on-screen error container */
-    #error-log-display {
-      background-color: #2c0000;
-      color: #ff9999;
-      font-family: monospace;
-      padding: 15px;
-      margin: 20px 0;
-      border: 2px solid #ff3333;
-      border-radius: 5px;
-      max-height: 300px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-    }
-    .error-entry {
-      border-bottom: 1px solid #551111;
-      padding: 5px 0;
-    }
-  </style>
-
-  <script>
-    // Self-executing setup to run before any other script
-    (function() {
-      // Helper function to insert error messages into the DOM
-      function logToHTML(message) {
-        // Run after the DOM is fully interactive or loaded
-        if (document.readyState === "loading") {
-          document.addEventListener("DOMContentLoaded", () => appendElement(message));
-        } else {
-          appendElement(message);
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
         }
-      }
-
-      function appendElement(text) {
-        let container = document.getElementById('error-log-display');
-        if (!container) {
-          // Dynamically create the container if it doesn't exist yet
-          container = document.createElement('div');
-          container.id = 'error-log-display';
-          document.body.insertBefore(container, document.body.firstChild);
+        /* Custom Console Container styled like DevTools */
+        #html-console {
+            background-color: #1c1c1c;
+            color: #f1f1f1;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 15px;
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            text-align: left;
+            font-size: 0.9em;
         }
-        const entry = document.createElement('div');
-        entry.className = 'error-entry';
-        entry.textContent = `❌ ${text}`;
-        container.appendChild(entry);
-      }
+        /* Log line styling */
+        .log-line {
+            margin: 5px 0;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+            white-space: pre-wrap;
+        }
+        /* Log types color definitions */
+        .log-default { color: #a6e22e; }
+        .log-warn { color: #e6db74; background-color: #433f1a; padding: 2px; }
+        .log-error { color: #f92672; background-color: #3e1925; padding: 2px; }
+        .log-info { color: #66d9ef; }
+        
+        button {
+            padding: 10px 15px;
+            margin-right: 10px;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+    </style>
 
-      // 1. Capture Unhandled Runtime Exceptions (e.g., syntax/reference errors)
-      window.addEventListener('error', function(event) {
-        // Avoid duplicate logging if error info is missing
-        if (!event.message) return; 
-        const errorMsg = `${event.message} (at ${event.filename}:${event.lineno}:${event.colno})`;
-        logToHTML(errorMsg);
-      });
-
-      // 2. Capture Unhandled Promise Rejections (e.g., failed fetch requests)
-      window.addEventListener('unhandledrejection', function(event) {
-        const reason = event.reason && event.reason.message ? event.reason.message : event.reason;
-        logToHTML(`Unhandled Promise Rejection: ${reason}`);
-      });
-
-      // 3. Intercept Explicit console.error() calls from code or third-party scripts
-      const nativeConsoleError = console.error;
-      console.error = function(...args) {
-        // Convert arguments into a readable string format
-        const message = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : arg).join(' ');
-        logToHTML(message);
-        // Retain original console functionality in DevTools
-        nativeConsoleError.apply(console, args); 
-      };
-    })();
-  </script>
 </head>
+
+<!-- The DOM target where all console activities will append -->
+<div id="html-console"></div>
+
+<script>
+        // Self-executing script to override console methods safely
+        (function() {
+            const consoleContainer = document.getElementById('html-console');
+
+            function createLogElement(message, type) {
+                const line = document.createElement('div');
+                line.className = `log-line log-${type}`;
+                
+                // Format objects or arrays into readable JSON strings
+                if (typeof message === 'object') {
+                    line.textContent = `[${type.toUpperCase()}] ` + JSON.stringify(message, null, 2);
+                } else {
+                    line.textContent = `[${type.toUpperCase()}] ` + message;
+                }
+                
+                consoleContainer.appendChild(line);
+                // Keep the custom console scrolled to the bottom
+                consoleContainer.scrollTop = consoleContainer.scrollHeight;
+            }
+
+            // Bind to all common console API functions
+            const methods = ['log', 'warn', 'error', 'info'];
+            methods.forEach(method => {
+                // Keep a reference to the native browser console behavior
+                const originalMethod = console[method];
+                
+                console[method] = function(...args) {
+                    // 1. Output to original browser dev tools
+                    originalMethod.apply(console, args); 
+                    
+                    // 2. Render inside the HTML container
+                    const combinedMessage = args.join(' ');
+                    createLogElement(combinedMessage, method === 'log' ? 'default' : method);
+                };
+            });
+
+            // Optional: Also catch unhandled runtime errors globally
+            window.onerror = function(message, source, lineno, colno, error) {
+                console.error(`${message} at ${source}:${lineno}:${colno}`);
+                return false;
+            };
+        })();
+        
+</script>
 
 <body onload="init()">
     <div id="wrappa">
