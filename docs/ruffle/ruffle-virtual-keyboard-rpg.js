@@ -129,4 +129,4 @@ function getIsMobile() {
 
 if (getIsMobile())	{
 	addKeyboard();
-	}
+}
