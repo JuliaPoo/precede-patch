@@ -15,6 +15,17 @@
 
     function addKeyboard() {
         var html = `<style>
+        .no-select {
+            /* Prevent text/element selection */
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none;     /* IE 10 and Elder */
+            user-select: none;         /* Standard */
+
+            /* Prevent image dragging */
+            -webkit-user-drag: none;   /* Safari and Chrome */
+            user-drag: none;           /* Standard (Future proof) */
+        }
+
         #virtualKb {
             position: fixed;
             width: 100%;
@@ -97,10 +108,10 @@
         <div id="virtualKb">
             <div id="keyboardLeft">
                 <div id="arrowKeys">
-                    <button id="upKey"></button>
-                    <button id="leftKey"></button>
-                    <button id="downKey"></button>
-                    <button id="rightKey"></button>
+                    <button class="no-select" id="upKey"></button>
+                    <button class="no-select" id="leftKey"></button>
+                    <button class="no-select" id="downKey"></button>
+                    <button class="no-select" id="rightKey"></button>
                 </div>
             </div>
             <div id="keyboardRight">
