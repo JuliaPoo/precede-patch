@@ -52,7 +52,6 @@
 <body onload="init()">
     <div id="html-console"></div>
 
-    <!--
     <script>
         // Self-executing script to override console methods safely
         (function() {
@@ -100,23 +99,20 @@
         })();
         
     </script>
-    -->
 
     <div id="wrappa">
         <h1>[S]Prequel: Rufflebeds</h1>
         <select id="dropdabeatyall" onchange="run_rom()">
             <option value="">-- select rom plox --</option>
             <option value="excelsior-patch.swf">excelsior-patch.swf</option>
-            <option value="precede-patch.swf">precede-patch.swf</option>
-            <!--
             <option value="excelsior-original.swf">excelsior-original.swf</option>
+            <option value="precede-patch.swf">precede-patch.swf</option>
             <option value="precede-original.swf">precede-original.swf</option>
             <option value="precede-patch - low-quality.swf">precede-patch - low-quality.swf</option>
             <option value="precede-patch - scale2.swf">precede-patch - scale2.swf</option>
             <option value="precede-patch - scale19.swf">precede-patch - scale19.swf</option>
             <option value="precede-patch - alloc-hoist.swf">precede-patch - alloc-hoist.swf</option>
             <option value="precede-patch - text-smooth.swf">precede-patch - text-smooth.swf</option>
-            -->
         </select>
         <div id="player-container">
         </div>
