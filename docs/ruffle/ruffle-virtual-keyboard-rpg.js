@@ -24,7 +24,7 @@
             z-index: 9999;
             background-color: transparent;
             pointer-events: none;
-            opacity: 0.2;
+            opacity: 0.5;
         }
         #keyboardLeft {
             position: absolute;
@@ -60,24 +60,28 @@
             top: 0px;
             left: 150px;
 			background-image: url("ruffle/key_up.png");
+            background-size: cover;
 			user-select: none;
         }
         #downKey {
             top: 150px;
             left: 150px;
 			background-image: url("ruffle/key_down.png");
+            background-size: cover;
 			user-select: none;
         }
         #leftKey {
             top: 150px;
             left: 0px;
 			background-image: url("ruffle/key_left.png");
+            background-size: cover;
 			user-select: none;
         }
         #rightKey {
             top: 150px;
             left: 300px;
 			background-image: url("ruffle/key_right.png");
+            background-size: cover;
 			user-select: none;
         }
         #spaceBar {
@@ -86,6 +90,7 @@
             top: 150px;
             right: 0px;
 			background-image: url("ruffle/key_space.png");
+            background-size: 100% 100%;
 			user-select: none;
         }
         </style>
