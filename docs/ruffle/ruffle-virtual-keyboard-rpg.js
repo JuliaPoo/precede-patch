@@ -133,6 +133,9 @@
             document.querySelector(button.id).addEventListener("touchstart", pressKey.bind(null, 'keydown', button.keyName, button.keyCode, button.keyNumber), false);
             document.querySelector(button.id).addEventListener("touchend", pressKey.bind(null, 'keyup', button.keyName, button.keyCode, button.keyNumber), false);
         }
+        document.querySelectorAll('.no-select').forEach(item => {
+            item.addEventListener('contextmenu', event => event.preventDefault());
+        });
     } 
 	
 function getIsMobile() {
