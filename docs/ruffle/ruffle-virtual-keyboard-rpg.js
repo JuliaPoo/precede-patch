@@ -115,7 +115,7 @@
                 </div>
             </div>
             <div id="keyboardRight">
-                <button id="spaceBar"></button>
+                <button class="no-select" id="spaceBar"></button>
             </div>
         </div>`;
         var el = document.createElement("div");
